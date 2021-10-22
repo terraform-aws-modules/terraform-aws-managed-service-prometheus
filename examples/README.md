@@ -1,3 +1,3 @@
-# Terraform <TODO> examples
+# Terraform AWS Managed Service for Prometheus (AMP) Examples
 
 - [Complete](./complete)

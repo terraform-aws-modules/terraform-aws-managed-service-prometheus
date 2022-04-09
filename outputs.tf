@@ -1,4 +1,7 @@
-# aws_prometheus_workspace
+################################################################################
+# Workspace
+################################################################################
+
 output "workspace_arn" {
   description = "Amazon Resource Name (ARN) of the workspace"
   value       = try(aws_prometheus_workspace.this[0].arn, "")

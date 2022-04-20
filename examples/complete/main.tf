@@ -4,7 +4,7 @@ provider "aws" {
 
 locals {
   region = "us-east-1"
-  name   = "example-${replace(basename(path.cwd), "_", "-")}"
+  name   = "amp-ex-${replace(basename(path.cwd), "_", "-")}"
 }
 
 ################################################################################

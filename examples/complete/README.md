@@ -54,4 +54,4 @@ No inputs.
 | <a name="output_workspace_prometheus_endpoint"></a> [workspace\_prometheus\_endpoint](#output\_workspace\_prometheus\_endpoint) | Prometheus endpoint available for this workspace |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
-Apache-2.0 Licensed. See [LICENSE](../../LICENSE).
+Apache-2.0 Licensed. See [LICENSE](https://github.com/terraform-aws-modules/terraform-aws-managed-service-prometheus/blob/main/LICENSE).

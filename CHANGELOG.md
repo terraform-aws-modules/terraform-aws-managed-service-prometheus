@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+### [2.1.2](https://github.com/terraform-aws-modules/terraform-aws-managed-service-prometheus/compare/v2.1.1...v2.1.2) (2022-04-26)
+
+
+### Bug Fixes
+
+* Add default value for `alert_manager_definition` ([#3](https://github.com/terraform-aws-modules/terraform-aws-managed-service-prometheus/issues/3)) ([a66025f](https://github.com/terraform-aws-modules/terraform-aws-managed-service-prometheus/commit/a66025fbde409a012f2622a48ac4d78755c0c9ff))
+
 ### [2.1.1](https://github.com/terraform-aws-modules/terraform-aws-managed-service-prometheus/compare/v2.1.0...v2.1.1) (2022-04-21)
 
 

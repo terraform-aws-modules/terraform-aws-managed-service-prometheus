@@ -27,7 +27,13 @@ variable "workspace_alias" {
 variable "alert_manager_definition" {
   description = "The alert manager definition that you want to be applied. See more in the [AWS Docs](https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-alert-manager.html)"
   type        = string
-  default     = null
+  default     = <<-EOF
+	    alertmanager_config: |
+	    route:
+	      receiver: 'default'
+	    receivers:
+	      - name: 'default'
+  EOF
 }
 
 ################################################################################

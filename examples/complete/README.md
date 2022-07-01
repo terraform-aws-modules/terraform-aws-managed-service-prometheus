@@ -34,6 +34,7 @@ No providers.
 
 | Name | Source | Version |
 |------|--------|---------|
+| <a name="module_default"></a> [default](#module\_default) | ../.. | n/a |
 | <a name="module_disabled"></a> [disabled](#module\_disabled) | ../.. | n/a |
 | <a name="module_prometheus"></a> [prometheus](#module\_prometheus) | ../.. | n/a |
 

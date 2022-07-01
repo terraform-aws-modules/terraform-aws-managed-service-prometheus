@@ -11,12 +11,6 @@ locals {
 # Prometheus Module
 ################################################################################
 
-module "disabled" {
-  source = "../.."
-
-  create = false
-}
-
 module "prometheus" {
   source = "../.."
 
@@ -52,4 +46,16 @@ module "prometheus" {
       EOT
     }
   }
+}
+
+module "disabled" {
+  source = "../.."
+
+  create = false
+}
+
+module "default" {
+  source = "../.."
+
+  workspace_alias = "${local.name}-default"
 }

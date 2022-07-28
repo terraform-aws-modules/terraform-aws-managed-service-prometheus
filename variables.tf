@@ -14,6 +14,18 @@ variable "tags" {
 # Workspace
 ################################################################################
 
+variable "create_workspace" {
+  description = "Determines whether a workspace will be created or to use an existing workspace"
+  type        = bool
+  default     = true
+}
+
+variable "workspace_id" {
+  description = "The ID of an existing workspace to use when `create_workspace` is `false`"
+  type        = string
+  default     = ""
+}
+
 variable "workspace_alias" {
   description = "The alias of the prometheus workspace. See more in the [AWS Docs](https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-onboard-create-workspace.html)"
   type        = string

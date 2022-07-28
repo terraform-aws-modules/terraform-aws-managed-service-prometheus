@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.2.0](https://github.com/terraform-aws-modules/terraform-aws-managed-service-prometheus/compare/v2.1.3...v2.2.0) (2022-07-28)
+
+
+### Features
+
+* Add support for using an existing/external workspace ([#6](https://github.com/terraform-aws-modules/terraform-aws-managed-service-prometheus/issues/6)) ([f26527a](https://github.com/terraform-aws-modules/terraform-aws-managed-service-prometheus/commit/f26527ac36569120b8f76dedd0dea645c8318a66))
+
 ### [2.1.3](https://github.com/terraform-aws-modules/terraform-aws-managed-service-prometheus/compare/v2.1.2...v2.1.3) (2022-07-01)
 
 

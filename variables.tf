@@ -32,6 +32,18 @@ variable "workspace_alias" {
   default     = null
 }
 
+variable "enable_logging" {
+  description = "Whether to enable Cloudwatch logging for the prometheus workspace or not. If this is set to true, you need to set the cloudwatch_log_group_arn attribute."
+  type        = bool
+  default     = false
+}
+
+variable "cloudwatch_log_group_arn" {
+  description = "The ARN of the Cloudwatch log group which will be used for the monitoring of the prometheus workspace."
+  type        = string
+  default     = null
+}
+
 ################################################################################
 # Alert Manager Definition
 ################################################################################

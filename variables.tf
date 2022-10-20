@@ -32,6 +32,12 @@ variable "workspace_alias" {
   default     = null
 }
 
+variable "logging_configuration" {
+  description = "The logging configuration of the prometheus workspace."
+  type        = map(string)
+  default     = {}
+}
+
 ################################################################################
 # Alert Manager Definition
 ################################################################################

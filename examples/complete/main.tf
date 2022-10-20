@@ -15,6 +15,9 @@ module "prometheus" {
   source = "../.."
 
   workspace_alias = local.name
+  logging_configuration = {
+    log_group_arn = aws_cloudwatch_log_group.this.arn
+  }
 
   alert_manager_definition = <<-EOT
   alertmanager_config: |
@@ -58,4 +61,11 @@ module "default" {
   source = "../.."
 
   workspace_alias = "${local.name}-default"
+}
+
+################################################################################
+# Supporting Resources
+################################################################################
+resource "aws_cloudwatch_log_group" "this" {
+  name = "example-aws-managed-service-prometheus-complete"
 }

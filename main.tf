@@ -1,5 +1,5 @@
 locals {
-  workspace_id = var.create_workspace ? aws_prometheus_workspace.this[0].id : var.workspace_id
+  workspace_id = var.create && var.create_workspace ? aws_prometheus_workspace.this[0].id : var.workspace_id
 }
 
 ################################################################################
@@ -10,7 +10,16 @@ resource "aws_prometheus_workspace" "this" {
   count = var.create && var.create_workspace ? 1 : 0
 
   alias = var.workspace_alias
-  tags  = var.tags
+
+  dynamic "logging_configuration" {
+    for_each = length(var.logging_configuration) > 0 ? [var.logging_configuration] : []
+
+    content {
+      log_group_arn = logging_configuration.value.log_group_arn
+    }
+  }
+
+  tags = var.tags
 }
 
 ################################################################################

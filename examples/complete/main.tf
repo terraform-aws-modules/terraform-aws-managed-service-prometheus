@@ -16,7 +16,7 @@ module "prometheus" {
 
   workspace_alias = local.name
   logging_configuration = {
-    log_group_arn = aws_cloudwatch_log_group.this.arn
+    log_group_arn = "${aws_cloudwatch_log_group.this.arn}:*"
   }
 
   alert_manager_definition = <<-EOT

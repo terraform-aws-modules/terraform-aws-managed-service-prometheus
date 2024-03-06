@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.2.3](https://github.com/terraform-aws-modules/terraform-aws-managed-service-prometheus/compare/v2.2.2...v2.2.3) (2024-03-06)
+
+
+### Bug Fixes
+
+* Update CI workflow versions to remove deprecated runtime warnings ([#13](https://github.com/terraform-aws-modules/terraform-aws-managed-service-prometheus/issues/13)) ([7049872](https://github.com/terraform-aws-modules/terraform-aws-managed-service-prometheus/commit/7049872c58881b578c357a428b8821049a9684e6))
+
 ### [2.2.2](https://github.com/terraform-aws-modules/terraform-aws-managed-service-prometheus/compare/v2.2.1...v2.2.2) (2022-11-07)
 
 

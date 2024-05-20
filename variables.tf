@@ -38,6 +38,12 @@ variable "logging_configuration" {
   default     = {}
 }
 
+variable "kms_key_arn" {
+  description = "The ARN of the KMS Key to for encryption at rest"
+  type        = string
+  default     = null 
+}
+
 ################################################################################
 # Alert Manager Definition
 ################################################################################

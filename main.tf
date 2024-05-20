@@ -9,7 +9,8 @@ locals {
 resource "aws_prometheus_workspace" "this" {
   count = var.create && var.create_workspace ? 1 : 0
 
-  alias = var.workspace_alias
+  alias       = var.workspace_alias
+  kms_key_arn = var.kms_key_arn
 
   dynamic "logging_configuration" {
     for_each = length(var.logging_configuration) > 0 ? [var.logging_configuration] : []

@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.0.0](https://github.com/terraform-aws-modules/terraform-aws-managed-service-prometheus/compare/v2.2.3...v3.0.0) (2024-05-20)
+
+
+### ⚠ BREAKING CHANGES
+
+* Add support for `kms_key_arn`; bump MSV of Terraform and AWS provider to `1.3` and `5.32` respectively to support (#16)
+
+### Features
+
+* Add support for `kms_key_arn`; bump MSV of Terraform and AWS provider to `1.3` and `5.32` respectively to support ([#16](https://github.com/terraform-aws-modules/terraform-aws-managed-service-prometheus/issues/16)) ([fc33f68](https://github.com/terraform-aws-modules/terraform-aws-managed-service-prometheus/commit/fc33f68c596ac50f431172a91feed7ab17f65b11))
+
 ## [2.2.3](https://github.com/terraform-aws-modules/terraform-aws-managed-service-prometheus/compare/v2.2.2...v2.2.3) (2024-03-06)
 
 

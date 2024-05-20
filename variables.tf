@@ -41,7 +41,7 @@ variable "logging_configuration" {
 variable "kms_key_arn" {
   description = "The ARN of the KMS Key to for encryption at rest"
   type        = string
-  default     = null 
+  default     = null
 }
 
 ################################################################################

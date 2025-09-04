@@ -28,7 +28,7 @@ resource "aws_prometheus_workspace" "this" {
 ################################################################################
 
 resource "aws_prometheus_alert_manager_definition" "this" {
-  count = var.create ? 1 : 0
+  count = var.create && var.create_alert_manager ? 1 : 0
 
   workspace_id = local.workspace_id
   definition   = var.alert_manager_definition

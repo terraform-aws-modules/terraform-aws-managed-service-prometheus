@@ -12,6 +12,7 @@ module "prometheus" {
 
   workspace_alias = "example"
 
+  create_alert_manager     = true
   alert_manager_definition = <<-EOT
   alertmanager_config: |
     route:

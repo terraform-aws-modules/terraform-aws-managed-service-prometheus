@@ -19,6 +19,7 @@ module "prometheus" {
     log_group_arn = "${aws_cloudwatch_log_group.this.arn}:*"
   }
 
+  create_alert_manager     = true
   alert_manager_definition = <<-EOT
   alertmanager_config: |
     route:

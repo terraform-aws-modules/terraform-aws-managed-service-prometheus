@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.1.0](https://github.com/terraform-aws-modules/terraform-aws-managed-service-prometheus/compare/v3.0.0...v3.1.0) (2025-09-09)
+
+
+### Features
+
+* Add the capability to disable alert manager creation ([#20](https://github.com/terraform-aws-modules/terraform-aws-managed-service-prometheus/issues/20)) ([c838818](https://github.com/terraform-aws-modules/terraform-aws-managed-service-prometheus/commit/c838818ef91fd171fa1cd1e3cb773fb214b513f3))
+
+
+### Bug Fixes
+
+* Update CI workflow versions to latest ([#18](https://github.com/terraform-aws-modules/terraform-aws-managed-service-prometheus/issues/18)) ([69d8d68](https://github.com/terraform-aws-modules/terraform-aws-managed-service-prometheus/commit/69d8d68355d590f3ac19812f07cb3515339f9642))
+
 ## [3.0.0](https://github.com/terraform-aws-modules/terraform-aws-managed-service-prometheus/compare/v2.2.3...v3.0.0) (2024-05-20)
 
 

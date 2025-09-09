@@ -48,6 +48,12 @@ variable "kms_key_arn" {
 # Alert Manager Definition
 ################################################################################
 
+variable "create_alert_manager" {
+  description = "Controls whether an Alert Manager definition is created along with the AMP workspace"
+  type        = bool
+  default     = true
+}
+
 variable "alert_manager_definition" {
   description = "The alert manager definition that you want to be applied. See more in the [AWS Docs](https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-alert-manager.html)"
   type        = string

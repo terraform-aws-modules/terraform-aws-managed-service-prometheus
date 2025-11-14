@@ -4,7 +4,7 @@ provider "aws" {
 
 locals {
   region = "us-east-1"
-  name   = "amp-ex-${replace(basename(path.cwd), "_", "-")}"
+  name   = "amp-ex-${basename(path.cwd)}"
 }
 
 ################################################################################
@@ -16,7 +16,9 @@ module "prometheus" {
 
   workspace_alias = local.name
   logging_configuration = {
-    log_group_arn = "${aws_cloudwatch_log_group.this.arn}:*"
+    create_log_group = true
+    # To use externally created log group
+    # log_group_arn = "${aws_cloudwatch_log_group.this.arn}:*"
   }
 
   create_alert_manager     = true
@@ -52,21 +54,14 @@ module "prometheus" {
   }
 }
 
-module "disabled" {
-  source = "../.."
-
-  create = false
-}
-
 module "default" {
   source = "../.."
 
   workspace_alias = "${local.name}-default"
 }
 
-################################################################################
-# Supporting Resources
-################################################################################
-resource "aws_cloudwatch_log_group" "this" {
-  name = "example-aws-managed-service-prometheus-complete"
+module "disabled" {
+  source = "../.."
+
+  create = false
 }

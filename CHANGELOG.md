@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.0.0](https://github.com/terraform-aws-modules/terraform-aws-managed-service-prometheus/compare/v3.1.1...v4.0.0) (2025-11-14)
+
+### ⚠ BREAKING CHANGES
+
+* Upgrade AWS provider and min required Terraform version to `6.0` and `1.5.7` respectively (#24)
+
+### Features
+
+* Upgrade AWS provider and min required Terraform version to `6.0` and `1.5.7` respectively ([#24](https://github.com/terraform-aws-modules/terraform-aws-managed-service-prometheus/issues/24)) ([9041bed](https://github.com/terraform-aws-modules/terraform-aws-managed-service-prometheus/commit/9041bedcbaa13b4228d529cd51a7705318bcc3f1))
+
 ## [3.1.1](https://github.com/terraform-aws-modules/terraform-aws-managed-service-prometheus/compare/v3.1.0...v3.1.1) (2025-10-21)
 
 ### Bug Fixes

@@ -4,6 +4,12 @@ variable "create" {
   default     = true
 }
 
+variable "region" {
+  description = "Region where the resource(s) will be managed. Defaults to the Region set in the provider configuration"
+  type        = string
+  default     = null
+}
+
 variable "tags" {
   description = "A map of tags to add to all resources"
   type        = map(string)
@@ -34,12 +40,49 @@ variable "workspace_alias" {
 
 variable "logging_configuration" {
   description = "The logging configuration of the prometheus workspace."
-  type        = map(string)
-  default     = {}
+  type = object({
+    create_log_group      = optional(bool, true)
+    logging_configuration = optional(string)
+  })
+  default = null
 }
 
 variable "kms_key_arn" {
   description = "The ARN of the KMS Key to for encryption at rest"
+  type        = string
+  default     = null
+}
+
+################################################################################
+# CloudWatch Log Group
+################################################################################
+
+variable "cloudwatch_log_group_name" {
+  description = "Custom name of CloudWatch log group for a service associated with the container definition"
+  type        = string
+  default     = null
+}
+
+variable "cloudwatch_log_group_use_name_prefix" {
+  description = "Determines whether the log group name should be used as a prefix"
+  type        = bool
+  default     = false
+}
+
+variable "cloudwatch_log_group_class" {
+  description = "Specified the log class of the log group. Possible values are: `STANDARD` or `INFREQUENT_ACCESS`"
+  type        = string
+  default     = null
+}
+
+variable "cloudwatch_log_group_retention_in_days" {
+  description = "Number of days to retain log events. Set to `0` to keep logs indefinitely"
+  type        = number
+  default     = 30
+}
+
+variable "cloudwatch_log_group_kms_key_id" {
+  description = "If a KMS Key ARN is set, this key will be used to encrypt the corresponding log group. Please be sure that the KMS Key has an appropriate key policy (https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/encrypt-log-data-kms.html)"
   type        = string
   default     = null
 }
@@ -72,6 +115,9 @@ variable "alert_manager_definition" {
 
 variable "rule_group_namespaces" {
   description = "A map of one or more rule group namespace definitions"
-  type        = map(any)
-  default     = {}
+  type = map(object({
+    name = string
+    data = string
+  }))
+  default = null
 }

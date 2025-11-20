@@ -21,6 +21,27 @@ module "prometheus" {
     # log_group_arn = "${aws_cloudwatch_log_group.this.arn}:*"
   }
 
+  retention_period_in_days = 60
+
+  limits_per_label_set = [
+    {
+      label_set = {
+        "env" = "dev"
+      }
+      limits = {
+        max_series = 100000
+      }
+    },
+    {
+      label_set = {
+        "env" = "prod"
+      }
+      limits = {
+        max_series = 400000
+      }
+    }
+  ]
+
   create_alert_manager     = true
   alert_manager_definition = <<-EOT
   alertmanager_config: |

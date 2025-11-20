@@ -78,6 +78,7 @@ No modules.
 | [aws_prometheus_alert_manager_definition.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/prometheus_alert_manager_definition) | resource |
 | [aws_prometheus_rule_group_namespace.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/prometheus_rule_group_namespace) | resource |
 | [aws_prometheus_workspace.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/prometheus_workspace) | resource |
+| [aws_prometheus_workspace_configuration.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/prometheus_workspace_configuration) | resource |
 
 ## Inputs
 
@@ -93,8 +94,10 @@ No modules.
 | <a name="input_create_alert_manager"></a> [create\_alert\_manager](#input\_create\_alert\_manager) | Controls whether an Alert Manager definition is created along with the AMP workspace | `bool` | `true` | no |
 | <a name="input_create_workspace"></a> [create\_workspace](#input\_create\_workspace) | Determines whether a workspace will be created or to use an existing workspace | `bool` | `true` | no |
 | <a name="input_kms_key_arn"></a> [kms\_key\_arn](#input\_kms\_key\_arn) | The ARN of the KMS Key to for encryption at rest | `string` | `null` | no |
+| <a name="input_limits_per_label_set"></a> [limits\_per\_label\_set](#input\_limits\_per\_label\_set) | Configuration block for setting limits on metrics with specific label sets. | <pre>list(object({<br/>    label_set = map(string)<br/>    limits = object({<br/>      max_series = number<br/>    })<br/>  }))</pre> | `null` | no |
 | <a name="input_logging_configuration"></a> [logging\_configuration](#input\_logging\_configuration) | The logging configuration of the prometheus workspace. | <pre>object({<br/>    create_log_group      = optional(bool, true)<br/>    logging_configuration = optional(string)<br/>  })</pre> | `null` | no |
 | <a name="input_region"></a> [region](#input\_region) | Region where the resource(s) will be managed. Defaults to the Region set in the provider configuration | `string` | `null` | no |
+| <a name="input_retention_period_in_days"></a> [retention\_period\_in\_days](#input\_retention\_period\_in\_days) | Number of days to retain metric data in the workspace. | `number` | `null` | no |
 | <a name="input_rule_group_namespaces"></a> [rule\_group\_namespaces](#input\_rule\_group\_namespaces) | A map of one or more rule group namespace definitions | <pre>map(object({<br/>    name = string<br/>    data = string<br/>  }))</pre> | `null` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | A map of tags to add to all resources | `map(string)` | `{}` | no |
 | <a name="input_workspace_alias"></a> [workspace\_alias](#input\_workspace\_alias) | The alias of the prometheus workspace. See more in the [AWS Docs](https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-onboard-create-workspace.html) | `string` | `null` | no |

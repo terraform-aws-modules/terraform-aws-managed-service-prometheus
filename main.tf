@@ -25,23 +25,33 @@ resource "aws_prometheus_workspace" "this" {
   tags = var.tags
 }
 
+################################################################################
+# Workspace Configuration
+################################################################################
+
 resource "aws_prometheus_workspace_configuration" "this" {
-  count        = var.create && var.create_workspace ? 1 : 0
-  workspace_id = local.workspace_id
+  count = var.create && var.create_workspace ? 1 : 0
+
+  region = var.region
 
   retention_period_in_days = var.retention_period_in_days
+  workspace_id             = local.workspace_id
 
   dynamic "limits_per_label_set" {
     for_each = var.limits_per_label_set
+
     content {
       label_set = limits_per_label_set.value.label_set
 
-      limits {
-        max_series = limits_per_label_set.value.limits.max_series
+      dynamic "limits" {
+        for_each = limits_per_label_set.value.limits
+
+        content {
+          max_series = limits.value.max_series
+        }
       }
     }
   }
-
 }
 
 ################################################################################

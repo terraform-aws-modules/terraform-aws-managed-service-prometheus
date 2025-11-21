@@ -54,6 +54,27 @@ variable "kms_key_arn" {
 }
 
 ################################################################################
+# Workspace Configuration
+################################################################################
+
+variable "retention_period_in_days" {
+  description = "Number of days to retain metric data in the workspace"
+  type        = number
+  default     = null
+}
+
+variable "limits_per_label_set" {
+  description = "Configuration block for setting limits on metrics with specific label sets"
+  type = list(object({
+    label_set = map(string)
+    limits = object({
+      max_series = number
+    })
+  }))
+  default = null
+}
+
+################################################################################
 # CloudWatch Log Group
 ################################################################################
 

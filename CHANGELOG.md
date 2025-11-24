@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.1.1](https://github.com/terraform-aws-modules/terraform-aws-managed-service-prometheus/compare/v4.1.0...v4.1.1) (2025-11-24)
+
+### Bug Fixes
+
+* Skip `limits_per_label_set` dynamic block when set to `null` ([#28](https://github.com/terraform-aws-modules/terraform-aws-managed-service-prometheus/issues/28)) ([0e71e82](https://github.com/terraform-aws-modules/terraform-aws-managed-service-prometheus/commit/0e71e8224eae224720b4644445830a3df687eb94))
+
 ## [4.1.0](https://github.com/terraform-aws-modules/terraform-aws-managed-service-prometheus/compare/v4.0.0...v4.1.0) (2025-11-21)
 
 ### Features

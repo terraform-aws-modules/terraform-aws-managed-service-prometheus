@@ -1,5 +1,21 @@
+data "aws_caller_identity" "current" {}
+
 locals {
   workspace_id = var.create && var.create_workspace ? aws_prometheus_workspace.this[0].id : var.workspace_id
+
+  # Placeholders in the policy document to be replaced with the actual values
+  policy_placeholders = {
+    "_PROMETHEUS_ARN_" = try(aws_prometheus_workspace.this[0].arn, null),
+    "_AWS_ACCOUNT_ID_" = try(data.aws_caller_identity.current.account_id, null)
+  }
+
+  policy = var.create && var.create_workspace && var.attach_policy ? replace(
+    replace(
+      data.aws_iam_policy_document.combined[0].json,
+      "_PROMETHEUS_ARN_", local.policy_placeholders["_PROMETHEUS_ARN_"]
+    ),
+    "_AWS_ACCOUNT_ID_", local.policy_placeholders["_AWS_ACCOUNT_ID_"]
+  ) : ""
 }
 
 ################################################################################
@@ -52,6 +68,23 @@ resource "aws_prometheus_workspace_configuration" "this" {
       }
     }
   }
+}
+
+data "aws_iam_policy_document" "combined" {
+  count = var.create && var.create_workspace && var.attach_policy ? 1 : 0
+
+  source_policy_documents = compact([
+    var.attach_policy ? var.policy : ""
+  ])
+}
+
+resource "aws_prometheus_resource_policy" "this" {
+  count = var.create && var.create_workspace && var.attach_policy ? 1 : 0
+
+  region = var.region
+
+  workspace_id    = local.workspace_id
+  policy_document = local.policy
 }
 
 ################################################################################

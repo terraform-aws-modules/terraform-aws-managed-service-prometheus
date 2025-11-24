@@ -42,6 +42,29 @@ module "prometheus" {
     }
   ]
 
+  attach_policy = true
+  policy        = <<-EOT
+  {
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Effect": "Allow",
+        "Principal": {
+          "AWS": "_AWS_ACCOUNT_ID_"
+        },
+        "Action": [
+          "aps:RemoteWrite",
+          "aps:QueryMetrics",
+          "aps:GetSeries",
+          "aps:GetLabels",
+          "aps:GetMetricMetadata"
+        ],
+        "Resource": "_PROMETHEUS_ARN_"
+      }
+    ]
+  }
+  EOT
+
   create_alert_manager     = true
   alert_manager_definition = <<-EOT
   alertmanager_config: |

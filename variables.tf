@@ -74,6 +74,18 @@ variable "limits_per_label_set" {
   default = null
 }
 
+variable "attach_policy" {
+  description = "Controls if Prometheus Workspace should have policy attached (set to `true` to use value of `policy` as Prometheus Workspace policy)"
+  type        = bool
+  default     = false
+}
+
+variable "policy" {
+  description = "(Optional) A valid policy JSON document. Note that if the policy document is not specific enough (but still valid), Terraform may view the policy as constantly changing in a terraform plan. In this case, please make sure you use the verbose/specific version of the policy. For more information about building AWS IAM policy documents with Terraform, see the AWS IAM Policy Document Guide."
+  type        = string
+  default     = null
+}
+
 ################################################################################
 # CloudWatch Log Group
 ################################################################################

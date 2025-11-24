@@ -38,7 +38,7 @@ resource "aws_prometheus_workspace_configuration" "this" {
   workspace_id             = local.workspace_id
 
   dynamic "limits_per_label_set" {
-    for_each = var.limits_per_label_set
+    for_each = coalesce(var.limits_per_label_set, [])
 
     content {
       label_set = limits_per_label_set.value.label_set

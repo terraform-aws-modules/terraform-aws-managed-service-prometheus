@@ -2,6 +2,8 @@ provider "aws" {
   region = local.region
 }
 
+data "aws_caller_identity" "current" {}
+
 locals {
   region = "us-east-1"
   name   = "amp-ex-${basename(path.cwd)}"
@@ -41,6 +43,23 @@ module "prometheus" {
       }
     }
   ]
+
+  create_resource_policy = true
+  resource_policy_statements = {
+    something = {
+      sid = "OtherAccountRead"
+      principals = [{
+        type        = "AWS"
+        identifiers = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"]
+      }]
+      actions = [
+        "aps:QueryMetrics",
+        "aps:GetSeries",
+        "aps:GetLabels",
+        "aps:GetMetricMetadata",
+      ]
+    }
+  }
 
   create_alert_manager     = true
   alert_manager_definition = <<-EOT

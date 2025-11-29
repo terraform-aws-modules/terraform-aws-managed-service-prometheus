@@ -46,11 +46,6 @@ module "prometheus" {
 }
 ```
 
-### Prometheus workspace with a custom policy attached
-
-When you need to attach a custom policy to the bucket, you can use the `policy` argument. To keep policy with correct Prometheus Workspace ARN and AWS account properties, you can use the placeholders `_PROMETHEUS_ARN_` and `_AWS_ACCOUNT_ID_` in the policy document. Those values will be replaced with the actual values during the policy attachment.
-
-
 ## Examples
 
 Examples codified under the [`examples`](https://github.com/terraform-aws-modules/terraform-aws-managed-service-prometheus/tree/master/examples) are intended to give users references for how to use the module(s) as well as testing/validating changes to the source code of the module. If contributing to the project, please be sure to make any appropriate updates to the relevant examples to allow maintainers to test your changes and to keep the examples up to date for users. Thank you!
@@ -86,14 +81,14 @@ No modules.
 | [aws_prometheus_workspace.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/prometheus_workspace) | resource |
 | [aws_prometheus_workspace_configuration.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/prometheus_workspace_configuration) | resource |
 | [aws_caller_identity.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity) | data source |
-| [aws_iam_policy_document.combined](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
+| [aws_iam_policy_document.resource_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
+| [aws_service_principal.grafana](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/service_principal) | data source |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_alert_manager_definition"></a> [alert\_manager\_definition](#input\_alert\_manager\_definition) | The alert manager definition that you want to be applied. See more in the [AWS Docs](https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-alert-manager.html) | `string` | `"alertmanager_config: |\n  route:\n    receiver: 'default'\n  receivers:\n    - name: 'default'\n"` | no |
-| <a name="input_attach_policy"></a> [attach\_policy](#input\_attach\_policy) | Controls if Prometheus Workspace should have policy attached (set to `true` to use value of `policy` as Prometheus Workspace policy) | `bool` | `false` | no |
 | <a name="input_cloudwatch_log_group_class"></a> [cloudwatch\_log\_group\_class](#input\_cloudwatch\_log\_group\_class) | Specified the log class of the log group. Possible values are: `STANDARD` or `INFREQUENT_ACCESS` | `string` | `null` | no |
 | <a name="input_cloudwatch_log_group_kms_key_id"></a> [cloudwatch\_log\_group\_kms\_key\_id](#input\_cloudwatch\_log\_group\_kms\_key\_id) | If a KMS Key ARN is set, this key will be used to encrypt the corresponding log group. Please be sure that the KMS Key has an appropriate key policy (https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/encrypt-log-data-kms.html) | `string` | `null` | no |
 | <a name="input_cloudwatch_log_group_name"></a> [cloudwatch\_log\_group\_name](#input\_cloudwatch\_log\_group\_name) | Custom name of CloudWatch log group for a service associated with the container definition | `string` | `null` | no |
@@ -101,12 +96,13 @@ No modules.
 | <a name="input_cloudwatch_log_group_use_name_prefix"></a> [cloudwatch\_log\_group\_use\_name\_prefix](#input\_cloudwatch\_log\_group\_use\_name\_prefix) | Determines whether the log group name should be used as a prefix | `bool` | `false` | no |
 | <a name="input_create"></a> [create](#input\_create) | Determines whether a resources will be created | `bool` | `true` | no |
 | <a name="input_create_alert_manager"></a> [create\_alert\_manager](#input\_create\_alert\_manager) | Controls whether an Alert Manager definition is created along with the AMP workspace | `bool` | `true` | no |
+| <a name="input_create_resource_policy"></a> [create\_resource\_policy](#input\_create\_resource\_policy) | Controls whether a resource policy is created along with the AMP workspace | `bool` | `true` | no |
 | <a name="input_create_workspace"></a> [create\_workspace](#input\_create\_workspace) | Determines whether a workspace will be created or to use an existing workspace | `bool` | `true` | no |
 | <a name="input_kms_key_arn"></a> [kms\_key\_arn](#input\_kms\_key\_arn) | The ARN of the KMS Key to for encryption at rest | `string` | `null` | no |
 | <a name="input_limits_per_label_set"></a> [limits\_per\_label\_set](#input\_limits\_per\_label\_set) | Configuration block for setting limits on metrics with specific label sets | <pre>list(object({<br/>    label_set = map(string)<br/>    limits = object({<br/>      max_series = number<br/>    })<br/>  }))</pre> | `null` | no |
 | <a name="input_logging_configuration"></a> [logging\_configuration](#input\_logging\_configuration) | The logging configuration of the prometheus workspace. | <pre>object({<br/>    create_log_group      = optional(bool, true)<br/>    logging_configuration = optional(string)<br/>  })</pre> | `null` | no |
-| <a name="input_policy"></a> [policy](#input\_policy) | (Optional) A valid policy JSON document. Note that if the policy document is not specific enough (but still valid), Terraform may view the policy as constantly changing in a terraform plan. In this case, please make sure you use the verbose/specific version of the policy. For more information about building AWS IAM policy documents with Terraform, see the AWS IAM Policy Document Guide. | `string` | `null` | no |
 | <a name="input_region"></a> [region](#input\_region) | Region where the resource(s) will be managed. Defaults to the Region set in the provider configuration | `string` | `null` | no |
+| <a name="input_resource_policy_statements"></a> [resource\_policy\_statements](#input\_resource\_policy\_statements) | A map of IAM policy [statements](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document#statement) for custom permission usage | <pre>map(object({<br/>    sid           = optional(string)<br/>    actions       = optional(list(string))<br/>    not_actions   = optional(list(string))<br/>    effect        = optional(string, "Allow")<br/>    resources     = optional(list(string))<br/>    not_resources = optional(list(string))<br/>    principals = optional(list(object({<br/>      type        = string<br/>      identifiers = list(string)<br/>    })))<br/>    not_principals = optional(list(object({<br/>      type        = string<br/>      identifiers = list(string)<br/>    })))<br/>    condition = optional(list(object({<br/>      test     = string<br/>      variable = string<br/>      values   = list(string)<br/>    })))<br/>  }))</pre> | `null` | no |
 | <a name="input_retention_period_in_days"></a> [retention\_period\_in\_days](#input\_retention\_period\_in\_days) | Number of days to retain metric data in the workspace | `number` | `null` | no |
 | <a name="input_rule_group_namespaces"></a> [rule\_group\_namespaces](#input\_rule\_group\_namespaces) | A map of one or more rule group namespace definitions | <pre>map(object({<br/>    name = string<br/>    data = string<br/>  }))</pre> | `null` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | A map of tags to add to all resources | `map(string)` | `{}` | no |

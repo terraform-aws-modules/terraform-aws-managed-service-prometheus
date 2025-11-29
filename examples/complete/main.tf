@@ -42,28 +42,22 @@ module "prometheus" {
     }
   ]
 
-  attach_policy = true
-  policy        = <<-EOT
-  {
-    "Version": "2012-10-17",
-    "Statement": [
-      {
-        "Effect": "Allow",
-        "Principal": {
-          "AWS": "_AWS_ACCOUNT_ID_"
-        },
-        "Action": [
-          "aps:RemoteWrite",
-          "aps:QueryMetrics",
-          "aps:GetSeries",
-          "aps:GetLabels",
-          "aps:GetMetricMetadata"
-        ],
-        "Resource": "_PROMETHEUS_ARN_"
-      }
-    ]
+  create_resource_policy = true
+  resource_policy_statements = {
+    something = {
+      sid = "OtherAccountRead"
+      principals = [{
+        type        = "AWS"
+        identifiers = ["arn:aws:iam::123456789012:root"]
+      }]
+      actions = [
+        "aps:QueryMetrics",
+        "aps:GetSeries",
+        "aps:GetLabels",
+        "aps:GetMetricMetadata",
+      ]
+    }
   }
-  EOT
 
   create_alert_manager     = true
   alert_manager_definition = <<-EOT

@@ -1,21 +1,9 @@
-data "aws_caller_identity" "current" {}
+data "aws_caller_identity" "current" {
+  count = local.create_resource_policy ? 1 : 0
+}
 
 locals {
   workspace_id = var.create && var.create_workspace ? aws_prometheus_workspace.this[0].id : var.workspace_id
-
-  # Placeholders in the policy document to be replaced with the actual values
-  policy_placeholders = {
-    "_PROMETHEUS_ARN_" = try(aws_prometheus_workspace.this[0].arn, null),
-    "_AWS_ACCOUNT_ID_" = try(data.aws_caller_identity.current.account_id, null)
-  }
-
-  policy = var.create && var.create_workspace && var.attach_policy ? replace(
-    replace(
-      data.aws_iam_policy_document.combined[0].json,
-      "_PROMETHEUS_ARN_", local.policy_placeholders["_PROMETHEUS_ARN_"]
-    ),
-    "_AWS_ACCOUNT_ID_", local.policy_placeholders["_AWS_ACCOUNT_ID_"]
-  ) : ""
 }
 
 ################################################################################
@@ -70,21 +58,114 @@ resource "aws_prometheus_workspace_configuration" "this" {
   }
 }
 
-data "aws_iam_policy_document" "combined" {
-  count = var.create && var.create_workspace && var.attach_policy ? 1 : 0
+################################################################################
+# Resource Policy
+################################################################################
 
-  source_policy_documents = compact([
-    var.attach_policy ? var.policy : ""
-  ])
+data "aws_service_principal" "grafana" {
+  count = local.create_resource_policy ? 1 : 0
+
+  region       = var.region
+  service_name = "grafana"
+}
+
+locals {
+  create_resource_policy = var.create && var.create_workspace && var.create_resource_policy
+}
+
+data "aws_iam_policy_document" "resource_policy" {
+  count = local.create_resource_policy ? 1 : 0
+
+  dynamic "statement" {
+    # Default permissions if custom permissions are not provided
+    for_each = var.resource_policy_statements == null ? [1] : []
+
+    content {
+      sid = "DefaultAccountReadWrite"
+      principals {
+        type        = "AWS"
+        identifiers = [data.aws_caller_identity.current[0].account_id]
+      }
+      actions = [
+        "aps:RemoteWrite",
+        "aps:QueryMetrics",
+        "aps:GetSeries",
+        "aps:GetLabels",
+        "aps:GetMetricMetadata",
+      ]
+      resources = [local.workspace_id]
+    }
+  }
+
+  dynamic "statement" {
+    # Default permissions if custom permissions are not provided
+    for_each = var.resource_policy_statements == null ? [1] : []
+
+    content {
+      sid = "DefaultGrafanaRead"
+      principals {
+        type        = "Service"
+        identifiers = [data.aws_service_principal.grafana[0].name]
+      }
+      actions = [
+        "aps:QueryMetrics",
+        "aps:GetSeries",
+        "aps:GetLabels",
+        "aps:GetMetricMetadata",
+      ]
+      resources = [local.workspace_id]
+    }
+  }
+
+  dynamic "statement" {
+    for_each = var.resource_policy_statements != null ? var.resource_policy_statements : {}
+
+    content {
+      sid           = try(coalesce(statement.value.sid, statement.key))
+      actions       = statement.value.actions
+      not_actions   = statement.value.not_actions
+      effect        = statement.value.effect
+      resources     = coalescelist(statement.value.resources, [local.workspace_id])
+      not_resources = statement.value.not_resources
+
+      dynamic "principals" {
+        for_each = statement.value.principals != null ? statement.value.principals : []
+
+        content {
+          type        = principals.value.type
+          identifiers = principals.value.identifiers
+        }
+      }
+
+      dynamic "not_principals" {
+        for_each = statement.value.not_principals != null ? statement.value.not_principals : []
+
+        content {
+          type        = not_principals.value.type
+          identifiers = not_principals.value.identifiers
+        }
+      }
+
+      dynamic "condition" {
+        for_each = statement.value.condition != null ? statement.value.condition : []
+
+        content {
+          test     = condition.value.test
+          values   = condition.value.values
+          variable = condition.value.variable
+        }
+      }
+    }
+  }
 }
 
 resource "aws_prometheus_resource_policy" "this" {
-  count = var.create && var.create_workspace && var.attach_policy ? 1 : 0
+  count = local.create_resource_policy ? 1 : 0
 
   region = var.region
 
   workspace_id    = local.workspace_id
-  policy_document = local.policy
+  policy_document = data.aws_iam_policy_document.resource_policy[0].json
 }
 
 ################################################################################

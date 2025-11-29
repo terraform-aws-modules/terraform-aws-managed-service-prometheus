@@ -74,16 +74,40 @@ variable "limits_per_label_set" {
   default = null
 }
 
-variable "attach_policy" {
-  description = "Controls if Prometheus Workspace should have policy attached (set to `true` to use value of `policy` as Prometheus Workspace policy)"
+################################################################################
+# Resource Policy
+################################################################################
+
+variable "create_resource_policy" {
+  description = "Controls whether a resource policy is created along with the AMP workspace"
   type        = bool
-  default     = false
+  default     = true
 }
 
-variable "policy" {
-  description = "(Optional) A valid policy JSON document. Note that if the policy document is not specific enough (but still valid), Terraform may view the policy as constantly changing in a terraform plan. In this case, please make sure you use the verbose/specific version of the policy. For more information about building AWS IAM policy documents with Terraform, see the AWS IAM Policy Document Guide."
-  type        = string
-  default     = null
+variable "resource_policy_statements" {
+  description = "A map of IAM policy [statements](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document#statement) for custom permission usage"
+  type = map(object({
+    sid           = optional(string)
+    actions       = optional(list(string))
+    not_actions   = optional(list(string))
+    effect        = optional(string, "Allow")
+    resources     = optional(list(string))
+    not_resources = optional(list(string))
+    principals = optional(list(object({
+      type        = string
+      identifiers = list(string)
+    })))
+    not_principals = optional(list(object({
+      type        = string
+      identifiers = list(string)
+    })))
+    condition = optional(list(object({
+      test     = string
+      variable = string
+      values   = list(string)
+    })))
+  }))
+  default = null
 }
 
 ################################################################################

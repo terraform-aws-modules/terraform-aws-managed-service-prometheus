@@ -2,6 +2,8 @@ provider "aws" {
   region = local.region
 }
 
+data "aws_caller_identity" "current" {}
+
 locals {
   region = "us-east-1"
   name   = "amp-ex-${basename(path.cwd)}"
@@ -48,7 +50,7 @@ module "prometheus" {
       sid = "OtherAccountRead"
       principals = [{
         type        = "AWS"
-        identifiers = ["arn:aws:iam::123456789012:root"]
+        identifiers = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"]
       }]
       actions = [
         "aps:QueryMetrics",

@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.2.0](https://github.com/terraform-aws-modules/terraform-aws-managed-service-prometheus/compare/v4.1.1...v4.2.0) (2025-11-29)
+
+### Features
+
+* Add workspace resource policy support ([#29](https://github.com/terraform-aws-modules/terraform-aws-managed-service-prometheus/issues/29)) ([adc79eb](https://github.com/terraform-aws-modules/terraform-aws-managed-service-prometheus/commit/adc79eb72b0b7ec38124dac1afe54d9fd9abc993))
+
 ## [4.1.1](https://github.com/terraform-aws-modules/terraform-aws-managed-service-prometheus/compare/v4.1.0...v4.1.1) (2025-11-24)
 
 ### Bug Fixes

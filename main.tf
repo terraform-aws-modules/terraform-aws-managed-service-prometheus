@@ -51,7 +51,7 @@ resource "aws_prometheus_workspace" "this" {
 ################################################################################
 
 resource "aws_prometheus_workspace_configuration" "this" {
-  count = var.create && var.create_workspace && var.limits_per_label_set != null ? 1 : 0
+  count = var.create && var.create_workspace ? 1 : 0
 
   region = var.region
 

@@ -41,8 +41,8 @@ variable "workspace_alias" {
 variable "logging_configuration" {
   description = "The logging configuration of the prometheus workspace."
   type = object({
-    create_log_group      = optional(bool, true)
-    logging_configuration = optional(string)
+    create_log_group = optional(bool, true)
+    log_group_arn    = optional(string)
   })
   default = null
 }

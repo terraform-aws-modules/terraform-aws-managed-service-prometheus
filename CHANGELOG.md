@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.3.0](https://github.com/terraform-aws-modules/terraform-aws-managed-service-prometheus/compare/v4.2.2...v4.3.0) (2026-01-08)
+
+### Features
+
+* Add provider meta user-agent ([#34](https://github.com/terraform-aws-modules/terraform-aws-managed-service-prometheus/issues/34)) ([29c8536](https://github.com/terraform-aws-modules/terraform-aws-managed-service-prometheus/commit/29c85362816ac5d7f47b301317ed000a63725a68))
+
 ## [4.2.2](https://github.com/terraform-aws-modules/terraform-aws-managed-service-prometheus/compare/v4.2.1...v4.2.2) (2026-01-04)
 
 ### Bug Fixes

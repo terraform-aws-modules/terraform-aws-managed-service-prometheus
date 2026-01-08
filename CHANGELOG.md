@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.2.2](https://github.com/terraform-aws-modules/terraform-aws-managed-service-prometheus/compare/v4.2.1...v4.2.2) (2026-01-04)
+
+### Bug Fixes
+
+* Correct `logging_configuration` variable definition to match structured used in codebase ([#36](https://github.com/terraform-aws-modules/terraform-aws-managed-service-prometheus/issues/36)) ([5919304](https://github.com/terraform-aws-modules/terraform-aws-managed-service-prometheus/commit/5919304071b66326cd6f8aacdf747cc6007afaf3))
+
 ## [4.2.1](https://github.com/terraform-aws-modules/terraform-aws-managed-service-prometheus/compare/v4.2.0...v4.2.1) (2025-12-15)
 
 ### Bug Fixes

@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.3.1](https://github.com/terraform-aws-modules/terraform-aws-managed-service-prometheus/compare/v4.3.0...v4.3.1) (2026-01-09)
+
+### Bug Fixes
+
+* Revert remove `limits_per_label_set` from `aws_prometheus_workspace_configuration` conditional creation statement ([#31](https://github.com/terraform-aws-modules/terraform-aws-managed-service-prometheus/issues/31)) ([#37](https://github.com/terraform-aws-modules/terraform-aws-managed-service-prometheus/issues/37)) ([3dcf853](https://github.com/terraform-aws-modules/terraform-aws-managed-service-prometheus/commit/3dcf8537efdacd08c231f2fc217de4b39549893b))
+
 ## [4.3.0](https://github.com/terraform-aws-modules/terraform-aws-managed-service-prometheus/compare/v4.2.2...v4.3.0) (2026-01-08)
 
 ### Features

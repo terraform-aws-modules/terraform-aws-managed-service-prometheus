@@ -194,7 +194,7 @@ locals {
 }
 
 resource "aws_cloudwatch_log_group" "this" {
-  count = var.create && var.create_workspace && try(coalesce(var.logging_configuration.create_log_group), true) ? 1 : 0
+  count = var.create && var.create_workspace && var.logging_configuration != null && var.logging_configuration.create_log_group ? 1 : 0
 
   region = var.region
 
